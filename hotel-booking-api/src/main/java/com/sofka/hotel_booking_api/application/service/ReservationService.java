@@ -330,4 +330,17 @@ public class ReservationService {
                 refundPercentage
         );
     }
+
+    /**
+     * Obtiene todas las reservas pendientes (PENDING).
+     * 
+     * @return lista de reservas con estado PENDING ordenadas por fecha de check-in
+     */
+    @Transactional(readOnly = true)
+    public List<ReservationResponse> getPendingReservations() {
+        return reservationRepository.findByStatusOrderByCheckInDateAsc(ReservationStatus.PENDING)
+                .stream()
+                .map(ReservationResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
 }

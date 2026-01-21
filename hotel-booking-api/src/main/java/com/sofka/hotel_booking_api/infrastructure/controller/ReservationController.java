@@ -96,6 +96,18 @@ public class ReservationController {
     }
 
     /**
+     * Endpoint para obtener todas las reservas pendientes.
+     * GET /api/reservations/pending
+     *
+     * @return lista de reservas con estado PENDING
+     */
+    @GetMapping("/pending")
+    public ResponseEntity<List<ReservationResponse>> getPendingReservations() {
+        List<ReservationResponse> response = reservationService.getPendingReservations();
+        return ResponseEntity.ok(response);
+    }
+
+    /**
      * Endpoint para realizar el check-in de una reserva.
      * POST /api/reservations/{id}/check-in
      * Historia 4.2: Realizar check-in del huésped

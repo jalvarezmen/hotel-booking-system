@@ -95,4 +95,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
      * @return lista de reservas ordenadas por fecha de check-out
      */
     List<Reservation> findByCheckOutDateAndStatusOrderByCheckOutDateAsc(LocalDate checkOutDate, ReservationStatus status);
+
+    /**
+     * Busca reservas por estado.
+     *
+     * @param status estado de la reserva
+     * @return lista de reservas ordenadas por fecha de check-in
+     */
+    List<Reservation> findByStatusOrderByCheckInDateAsc(ReservationStatus status);
 }
