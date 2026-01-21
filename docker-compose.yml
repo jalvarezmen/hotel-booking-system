@@ -59,19 +59,6 @@ services:
       - hotel-network
     restart: unless-stopped
 
-  hotel-booking-frontend:
-    build:
-      context: ./hotel-booking-fronted
-      dockerfile: Dockerfile
-    container_name: hotel-booking-frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - hotel-booking-api
-    networks:
-      - hotel-network
-    restart: unless-stopped
-
 networks:
   hotel-network:
     driver: bridge

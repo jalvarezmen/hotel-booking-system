@@ -57,6 +57,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
             "http://localhost:5173",  // Vite dev server
+            "http://localhost:5174",  // Vite dev server (puerto alternativo)
             "http://localhost:3000",   // React dev server alternativo
             "http://localhost:80"      // Nginx producción
         ));
