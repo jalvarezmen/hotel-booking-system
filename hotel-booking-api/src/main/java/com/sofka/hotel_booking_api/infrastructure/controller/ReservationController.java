@@ -96,6 +96,23 @@ public class ReservationController {
     }
 
     /**
+     * Endpoint para obtener las reservas de una fecha específica.
+     * GET /api/reservations/by-date?date=YYYY-MM-DD
+     *
+     * @param date fecha en formato YYYY-MM-DD (opcional, por defecto hoy)
+     * @return objeto con listas de check-ins y check-outs para la fecha especificada
+     */
+    @GetMapping("/by-date")
+    public ResponseEntity<TodayReservationsResponse> getReservationsByDate(
+            @RequestParam(required = false) java.time.LocalDate date) {
+        if (date == null) {
+            date = java.time.LocalDate.now();
+        }
+        TodayReservationsResponse response = reservationService.getReservationsByDate(date);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
      * Endpoint para obtener todas las reservas pendientes.
      * GET /api/reservations/pending
      *
@@ -104,6 +121,18 @@ public class ReservationController {
     @GetMapping("/pending")
     public ResponseEntity<List<ReservationResponse>> getPendingReservations() {
         List<ReservationResponse> response = reservationService.getPendingReservations();
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Endpoint para obtener todas las reservas activas (CONFIRMED y ACTIVE).
+     * GET /api/reservations/active
+     *
+     * @return lista de reservas con estado CONFIRMED o ACTIVE
+     */
+    @GetMapping("/active")
+    public ResponseEntity<List<ReservationResponse>> getActiveReservations() {
+        List<ReservationResponse> response = reservationService.getActiveReservations();
         return ResponseEntity.ok(response);
     }
 

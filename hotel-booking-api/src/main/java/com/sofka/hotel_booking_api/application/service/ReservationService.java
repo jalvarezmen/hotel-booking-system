@@ -181,20 +181,29 @@ public class ReservationService {
     @Transactional(readOnly = true)
     public TodayReservationsResponse getTodayReservations() {
         LocalDate today = LocalDate.now();
-        
-        // Obtener check-ins del día: CONFIRMED (pendientes) y ACTIVE (ya realizados hoy)
+        return getReservationsByDate(today);
+    }
+
+    /**
+     * Obtiene las reservas de check-in y check-out para una fecha específica.
+     *
+     * @param date la fecha para la cual obtener las reservas
+     * @return objeto con listas de check-ins y check-outs para la fecha especificada
+     */
+    public TodayReservationsResponse getReservationsByDate(LocalDate date) {
+        // Obtener check-ins del día: CONFIRMED (pendientes) y ACTIVE (ya realizados)
         List<ReservationResponse> checkIns = reservationRepository
                 .findByCheckInDateAndStatusInOrderByCheckInDateAsc(
-                    today, 
+                    date, 
                     List.of(ReservationStatus.CONFIRMED, ReservationStatus.ACTIVE)
                 )
                 .stream()
                 .map(ReservationResponse::fromEntity)
                 .collect(Collectors.toList());
         
-        // Obtener check-outs del día (reservas ACTIVE con salida hoy)
+        // Obtener check-outs del día (reservas ACTIVE con salida en la fecha especificada)
         List<ReservationResponse> checkOuts = reservationRepository
-                .findByCheckOutDateAndStatusOrderByCheckOutDateAsc(today, ReservationStatus.ACTIVE)
+                .findByCheckOutDateAndStatusOrderByCheckOutDateAsc(date, ReservationStatus.ACTIVE)
                 .stream()
                 .map(ReservationResponse::fromEntity)
                 .collect(Collectors.toList());
@@ -222,8 +231,8 @@ public class ReservationService {
         LocalDate today = LocalDate.now();
         if (!reservation.getCheckInDate().equals(today)) {
             throw new IllegalStateException(
-                    "Check-in can only be performed on the check-in date. Expected: " 
-                    + reservation.getCheckInDate() + ", but today is: " + today);
+                    "El check-in solo puede realizarse en la fecha programada. Fecha esperada: " 
+                    + reservation.getCheckInDate() + ", pero hoy es: " + today);
         }
 
         // 3. Verificar que la habitación no esté ocupada por otra reserva activa
@@ -339,6 +348,20 @@ public class ReservationService {
     @Transactional(readOnly = true)
     public List<ReservationResponse> getPendingReservations() {
         return reservationRepository.findByStatusOrderByCheckInDateAsc(ReservationStatus.PENDING)
+                .stream()
+                .map(ReservationResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Obtiene todas las reservas activas (CONFIRMED y ACTIVE).
+     * 
+     * @return lista de reservas con estado CONFIRMED o ACTIVE ordenadas por fecha de check-in
+     */
+    @Transactional(readOnly = true)
+    public List<ReservationResponse> getActiveReservations() {
+        return reservationRepository.findByStatusInOrderByCheckInDateAsc(
+                    List.of(ReservationStatus.CONFIRMED, ReservationStatus.ACTIVE))
                 .stream()
                 .map(ReservationResponse::fromEntity)
                 .collect(Collectors.toList());

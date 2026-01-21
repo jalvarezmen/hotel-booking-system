@@ -103,4 +103,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
      * @return lista de reservas ordenadas por fecha de check-in
      */
     List<Reservation> findByStatusOrderByCheckInDateAsc(ReservationStatus status);
+
+    /**
+     * Busca reservas por múltiples estados.
+     *
+     * @param statuses lista de estados permitidos
+     * @return lista de reservas ordenadas por fecha de check-in
+     */
+    List<Reservation> findByStatusInOrderByCheckInDateAsc(List<ReservationStatus> statuses);
 }
