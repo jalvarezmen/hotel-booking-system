@@ -1,5 +1,6 @@
 package com.sofka.hotel_booking_api.infrastructure.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sofka.hotel_booking_api.domain.model.Room;
 import com.sofka.hotel_booking_api.domain.model.RoomType;
 
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 /**
  * DTO para la respuesta de habitación.
  */
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class RoomResponse {
 
     private Long id;
@@ -16,6 +18,7 @@ public class RoomResponse {
     private Integer capacity;
     private BigDecimal pricePerNight;
     private Boolean isAvailable;
+    private String imageUrl;
 
     // Constructor vacío
     public RoomResponse() {
@@ -36,7 +39,7 @@ public class RoomResponse {
      * Método factory para crear un RoomResponse desde una entidad Room
      */
     public static RoomResponse fromEntity(Room room) {
-        return new RoomResponse(
+        RoomResponse response = new RoomResponse(
             room.getId(),
             room.getRoomNumber(),
             room.getRoomType(),
@@ -44,6 +47,8 @@ public class RoomResponse {
             room.getPricePerNight(),
             room.getIsAvailable()
         );
+        response.setImageUrl(room.getImageUrl());
+        return response;
     }
 
     // Getters y Setters
@@ -93,5 +98,13 @@ public class RoomResponse {
 
     public void setIsAvailable(Boolean isAvailable) {
         this.isAvailable = isAvailable;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

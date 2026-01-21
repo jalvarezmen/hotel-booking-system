@@ -41,6 +41,9 @@ public class CreateRoomRequest {
     @DecimalMin(value = ValidationMessages.MIN_PRICE, message = ValidationMessages.PRICE_MIN)
     private BigDecimal pricePerNight;
 
+    @Size(max = 500, message = "La URL de la imagen no puede exceder 500 caracteres")
+    private String imageUrl;
+
     // Constructor vacío
     public CreateRoomRequest() {
     }
@@ -84,5 +87,13 @@ public class CreateRoomRequest {
 
     public void setPricePerNight(BigDecimal pricePerNight) {
         this.pricePerNight = pricePerNight;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

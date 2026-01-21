@@ -17,5 +17,12 @@ spring:
         format_sql: ${SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL:true}
         dialect: org.hibernate.dialect.PostgreSQLDialect
   
+  jackson:
+    default-property-inclusion: always
+    serialization:
+      write-null-map-values: true
+    deserialization:
+      fail-on-unknown-properties: false
+  
 server:
   port: 8080

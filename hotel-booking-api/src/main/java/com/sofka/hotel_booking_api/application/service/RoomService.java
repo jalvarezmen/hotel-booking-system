@@ -53,6 +53,11 @@ public class RoomService {
             request.getCapacity(),
             request.getPricePerNight()
         );
+        
+        // 2.1. Establecer imageUrl si está presente en el request
+        if (request.getImageUrl() != null && !request.getImageUrl().trim().isEmpty()) {
+            room.setImageUrl(request.getImageUrl().trim());
+        }
 
         // 3. Guardar la habitación en la base de datos
         Room savedRoom = roomRepository.save(room);
@@ -107,6 +112,11 @@ public class RoomService {
         room.setRoomType(request.getRoomType());
         room.setCapacity(request.getCapacity());
         room.setPricePerNight(request.getPricePerNight());
+        
+        // 2.1. Actualizar imageUrl (puede ser null para eliminarlo)
+        room.setImageUrl(request.getImageUrl() != null && !request.getImageUrl().trim().isEmpty() 
+            ? request.getImageUrl().trim() 
+            : null);
 
         // 3. Guardar los cambios
         Room updatedRoom = roomRepository.save(room);

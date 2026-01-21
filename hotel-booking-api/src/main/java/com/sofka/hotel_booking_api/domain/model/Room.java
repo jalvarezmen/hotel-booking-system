@@ -41,6 +41,9 @@ public class Room {
     @Column(name = "is_available", nullable = false)
     private Boolean isAvailable = true;
 
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
     // Constructor vacío requerido por JPA
     protected Room() {
     }
@@ -102,6 +105,14 @@ public class Room {
 
     public void setIsAvailable(Boolean isAvailable) {
         this.isAvailable = isAvailable;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
