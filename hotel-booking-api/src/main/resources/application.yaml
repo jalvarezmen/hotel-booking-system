@@ -16,9 +16,12 @@ spring:
       hibernate:
         format_sql: ${SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL:true}
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: America/Bogota
   
   jackson:
     default-property-inclusion: always
+    time-zone: America/Bogota
     serialization:
       write-null-map-values: true
     deserialization:
